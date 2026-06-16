@@ -1,0 +1,13 @@
+{
+  "name": "ratelens",
+  "private": true,
+  "scripts": {
+    "infra:up": "docker-compose up -d",
+    "infra:down": "docker-compose down",
+    "infra:logs": "docker-compose logs -f",
+    "gateway": "cd gateway && npm run dev",
+    "worker": "cd worker && npm run dev",
+    "backend": "cd dummy-backend && npm run dev",
+    "install:all": "cd gateway && npm install && cd ../worker && npm install && cd ../dummy-backend && npm install"
+  }
+}
