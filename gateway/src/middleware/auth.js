@@ -18,7 +18,7 @@ async function authMiddleware(req, res, next) {
      FROM api_keys ak
      JOIN quota_config qc ON qc.tier = ak.tier
      WHERE ak.key_hash = $1`,
-    [keyHash],
+    [keyHash]
   );
 
   if (result.rows.length === 0) {

@@ -4,6 +4,7 @@ const { connectRedis } = require("./lib/redis");
 const { connectKafka } = require("./lib/kafka");
 const { connectDb } = require("./lib/db");
 const authMiddleware = require("./middleware/auth");
+const rateLimiterMiddleware = require("./middleware/rateLimiter");
 const proxyMiddleware = require("./middleware/proxy");
 const adminRoutes = require("./routes/admin");
 
@@ -13,11 +14,12 @@ app.use(express.json());
 // Health check (no auth needed)
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 
-// Admin API — key management
+// Admin API — key management (no rate limiting on admin)
 app.use("/admin", adminRoutes);
 
-// All other routes — auth + proxy to dummy backend
-app.use("/api", authMiddleware, proxyMiddleware);
+// All API routes — auth → rate limit → proxy
+// Order matters: auth sets req.apiKey, rate limiter reads it
+app.use("/api", authMiddleware, rateLimiterMiddleware, proxyMiddleware);
 
 async function start() {
   await connectDb();

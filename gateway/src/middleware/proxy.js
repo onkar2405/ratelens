@@ -4,15 +4,12 @@ const { emitUsageEvent } = require("../lib/kafka");
 const proxy = createProxyMiddleware({
   target: process.env.DUMMY_BACKEND_URL,
   changeOrigin: true,
-  pathRewrite: { "^/api": "/api" },
   logLevel: "debug",
 });
 
 function proxyMiddleware(req, res, next) {
   req._startTime = Date.now();
-  console.log("Proxy middleware hit:", req.method, req.path);
 
-  // Capture response using res.on instead of proxyRes hook
   const originalEnd = res.end.bind(res);
   res.end = function (...args) {
     const latency = Date.now() - req._startTime;
