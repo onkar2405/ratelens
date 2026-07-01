@@ -3,6 +3,9 @@
 A distributed API key management and rate limiting platform.  
 Built to demonstrate real-world system design: Redis, Kafka, PostgreSQL, Memcached, API Gateway pattern.
 
+## Demo
+<video src="https://github.com/user-attachments/assets/153d2871-f3b2-4f3d-afdf-adff43247735"></video>
+
 ## Architecture
 
 ```
